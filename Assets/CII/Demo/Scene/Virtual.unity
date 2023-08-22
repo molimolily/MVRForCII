@@ -662,6 +662,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4492785402677803725, guid: 83c7010333a26cb4abf860a64f6a0a8c,
+        type: 3}
+      propertyPath: ciiType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4492785402677803725, guid: 83c7010333a26cb4abf860a64f6a0a8c,
+        type: 3}
+      propertyPath: gridSize.x
+      value: 9.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4492785402677803725, guid: 83c7010333a26cb4abf860a64f6a0a8c,
+        type: 3}
+      propertyPath: gridSize.y
+      value: 9.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4492785402677803725, guid: 83c7010333a26cb4abf860a64f6a0a8c,
+        type: 3}
+      propertyPath: gridCount.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4492785402677803725, guid: 83c7010333a26cb4abf860a64f6a0a8c,
+        type: 3}
+      propertyPath: gridCount.y
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 4492785402677803726, guid: 83c7010333a26cb4abf860a64f6a0a8c,
         type: 3}
       propertyPath: m_Name

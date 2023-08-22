@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 public class CII : MonoBehaviour
 {
+    enum CIIType
+    {
+        Real,
+        Virtual,
+        None
+    }
+
+    [SerializeField] CIIType ciiType = CIIType.None;
+
     [Header("Parameter")]
     [SerializeField] Vector2Int gridCount = new Vector2Int(20, 20); // グリッドの個数 (W, H)
     [SerializeField] Vector2 gridSize = new Vector2(4.8f, 4.8f); // グリッドのサイズ (W, H) [mm]
@@ -27,6 +36,18 @@ public class CII : MonoBehaviour
     
     void Start()
     {
+        switch(ciiType)
+        {
+            case CIIType.Real:
+                cameraPrefab.transform.localEulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
+                break;
+            case CIIType.Virtual:
+                cameraPrefab.transform.localEulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+                break;
+            case CIIType.None: // このときは何もしない
+                break;
+        }
+
         ratioOfD2lToD2e = displayToLensDist / (displayToLensDist + lensToEyeDist);
 
         Vector2 elementalImageSize = (1.0f + displayToLensDist / lensToEyeDist) * gridSize;
@@ -51,7 +72,6 @@ public class CII : MonoBehaviour
         }
     }
 
-    
     void Update()
     {
         // ズーム

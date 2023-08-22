@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d996c3ec66f2c3849967053bc6bb6d1c, type: 3}
   m_Name: MV Render Pipeline Asset
   m_EditorClassIdentifier: 
-  cII: {fileID: 4492785402677803726, guid: 83c7010333a26cb4abf860a64f6a0a8c, type: 3}
+  enableSRPBatcher: 1
+  drawSkybox: 0
+  drawTransparent: 0

@@ -21,13 +21,25 @@ public class MVRenderPipeline : RenderPipeline
 
     static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
 
-    public MVRenderPipeline()
+    bool drawSkybox;
+    bool drawTransparent;
+
+    public MVRenderPipeline(MVRenderPipelineAsset asset)
     {
-        GraphicsSettings.useScriptableRenderPipelineBatching = true;
+        if(asset.enableSRPBatcher)
+        {
+            GraphicsSettings.useScriptableRenderPipelineBatching = true;
+        }
+
+        drawSkybox = asset.drawSkybox;
+        drawTransparent = asset.drawTransparent;
     }
+
     protected override void Render(ScriptableRenderContext context, Camera[] cameras)
     {
         this.context = context;
+
+        buffer.ClearRenderTarget(true, true, Color.clear);
 
         // エディタでの処理
         #region Editor
@@ -133,7 +145,6 @@ public class MVRenderPipeline : RenderPipeline
     void Setup(Camera camera)
     {
         context.SetupCameraProperties(camera);
-        buffer.ClearRenderTarget(true, true, Color.clear);
         buffer.BeginSample(bufferName);
         ExecuteBuffer();
     }
@@ -153,13 +164,19 @@ public class MVRenderPipeline : RenderPipeline
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
 
         // スカイボックスの描画
-        context.DrawSkybox(camera);
+        if(drawSkybox)
+        {
+            context.DrawSkybox(camera);
+        }
 
         // 半透明オブジェクトの描画
-        sortingSettings.criteria = SortingCriteria.CommonTransparent;
-        drawingSettings.sortingSettings = sortingSettings;
-        filteringSettings.renderQueueRange = RenderQueueRange.transparent;
-        context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
+        if(drawTransparent)
+        {
+            sortingSettings.criteria = SortingCriteria.CommonTransparent;
+            drawingSettings.sortingSettings = sortingSettings;
+            filteringSettings.renderQueueRange = RenderQueueRange.transparent;
+            context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
+        }
     }
 
     void RenderSceneView(Camera camera)

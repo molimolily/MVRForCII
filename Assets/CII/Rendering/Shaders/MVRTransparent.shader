@@ -13,11 +13,11 @@ Shader "MVRShader/Transparent"
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             struct appdata
             {
@@ -31,27 +31,27 @@ Shader "MVRShader/Transparent"
                 float4 vertex : SV_POSITION;
             };
 
+            CBUFFER_START(UnityPerMaterial)
             sampler2D _MainTex;
-            float4 _MainTex_ST;
-            
-            fixed4 _BaseColor;
+            half4 _MainTex_ST;
+            float4 _BaseColor;
+            CBUFFER_END
 
             v2f vert(appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.vertex = TransformObjectToHClip(v.vertex.xyz);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            half4 frag(v2f i) : SV_Target
             {
-                // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv) * _BaseColor;
+                half4 col = tex2D(_MainTex, i.uv) * _BaseColor;
                 col.a = _BaseColor.a;
                 return col;
             }
-            ENDCG
+            ENDHLSL
         }
     }
 }

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class MVRenderPipeline : RenderPipeline
 {
@@ -18,6 +21,10 @@ public class MVRenderPipeline : RenderPipeline
 
     static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
 
+    public MVRenderPipeline()
+    {
+        GraphicsSettings.useScriptableRenderPipelineBatching = true;
+    }
     protected override void Render(ScriptableRenderContext context, Camera[] cameras)
     {
         this.context = context;
@@ -163,7 +170,12 @@ public class MVRenderPipeline : RenderPipeline
         }
         Setup(camera);
         context.DrawWireOverlay(camera);
-        context.DrawGizmos(camera, GizmoSubset.PreImageEffects);
+#if UNITY_EDITOR
+        if (UnityEditor.Handles.ShouldRenderGizmos())
+        {
+            context.DrawGizmos(camera, GizmoSubset.PreImageEffects);
+        }
+#endif
         DrawGeometry(camera);
         Submit();
     }

@@ -7,11 +7,12 @@ UnityでCIIのためのシンプルな多視点レンダリングを行います
   
 400視点のレンダリングで最大200fpsほど出ています。
 <div align="center">
-<img src="https://github.com/molimolily/MVRForCII/assets/65477859/10e2b296-7770-4b89-9529-ea683b02c5f3" width="600">
+<img src="https://github.com/molimolily/MVRForCII/assets/65477859/729ce801-8a19-4693-8d57-eaeb26c673da" width="600">
 </div>
 
 ## サンプルシーンを動かすまで
 ### 1. プロジェクトの作成
+
 URPのマクロを利用してるシェーダーがあります(今後修正するかも)。URPでプロジェクトを作成してください。
 
 ### 2. Render Pipeline の設定
@@ -20,21 +21,22 @@ URPのマクロを利用してるシェーダーがあります(今後修正す�
 Render Pipeline Asset を MV Render Pipeline Asset に設定  
 Project Settings -> Quality -> Rendering -> Render Pipeline Asset
 <div align="center">
-<img src="https://github.com/molimolily/MVRForCII/assets/65477859/966bd30f-1efb-4fe3-843b-8bccdd4cbd34" width="600">
+<img src="https://github.com/molimolily/MVRForCII/assets/65477859/bcfdf518-5efa-4a4e-b8df-ed40998ecd68" width="600">
 </div>
-  
+
 #### Scriptable Render Pipeline Settings も変更  
 Project Settings -> Graphics -> Scriptable Render Pipline Settings  
 <div align="center">
-<img src="https://github.com/molimolily/MVRForCII/assets/65477859/6351446f-2670-4973-a051-2f00456c8e65" width="600">
+<img src="https://github.com/molimolily/MVRForCII/assets/65477859/bba91dbc-bc4e-4645-bdd8-f89ac0ee6c6c" width="600">
 </div>
+
 
 ### サンプルシーンの実行
 Assets/CII/Demo/Scenes にVirtual(虚像型)とReal(実像型)のシーンがあります。こちらを実行してください。
 
 ## 使用方法
 ### 1. Render Pipeline Asset の設定
-![image](https://github.com/molimolily/MVRForCII/assets/65477859/6a630bad-b08a-4ad3-ab66-bb07aa27e7bd)  
+![262572055-6a630bad-b08a-4ad3-ab66-bb07aa27e7bd](https://github.com/molimolily/MVRForCII/assets/65477859/56a64b04-8e42-4944-8d20-cf3ebda61d30)
 
 - Enable SRP Batcher : SRP Batcher を有効にする
 - Draw Skybox : スカイボックスの描画を行う
@@ -51,7 +53,7 @@ MV Render Pipeline ではCullingCameraコンポーネントを付けたカメラ
 MV Render Pipeline では ShaderTagId が SRPDefaultUnlit にのみ対応しています。
 そのため、LightMode が記述されないシェーダーのみ描画が行われます。
 基本的にはUnlitシェーダー、またはMVRシェーダーを使用してください。  
-なお、MVRシェーダーはSRPBatcher に対応しています。
+なお、MVRシェーダーはSRP Batcher に対応しています。
 
 
 ## License

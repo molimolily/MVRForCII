@@ -191,6 +191,7 @@ public class MVRenderPipeline : RenderPipeline
         if (UnityEditor.Handles.ShouldRenderGizmos())
         {
             context.DrawGizmos(camera, GizmoSubset.PreImageEffects);
+            context.DrawGizmos(camera, GizmoSubset.PostImageEffects);
         }
 #endif
         DrawGeometry(camera);

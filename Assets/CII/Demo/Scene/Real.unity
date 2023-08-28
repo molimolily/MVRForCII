@@ -643,6 +643,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CII
       objectReference: {fileID: 0}
+    - target: {fileID: 4492785404269762169, guid: 83c7010333a26cb4abf860a64f6a0a8c,
+        type: 3}
+      propertyPath: far clip plane
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83c7010333a26cb4abf860a64f6a0a8c, type: 3}
 --- !u!1 &2064417662

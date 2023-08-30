@@ -1,9 +1,8 @@
-Shader "MVRShader/Unlit"
+Shader "MVR/Unlit"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _BaseColor ("Base Color", Color) = (1.0, 1.0 ,1.0 ,1.0)
     }
     SubShader
     {
@@ -30,10 +29,9 @@ Shader "MVRShader/Unlit"
                 float4 vertex : SV_POSITION;
             };
 
-            CBUFFER_START(UnityPerMaterial)
             sampler2D _MainTex;
+            CBUFFER_START(UnityPerMaterial)
             float4 _MainTex_ST;
-            half4 _BaseColor;
             CBUFFER_END
 
             v2f vert (appdata v)
@@ -46,7 +44,7 @@ Shader "MVRShader/Unlit"
 
             half4 frag (v2f i) : SV_Target
             {
-                half4 col = tex2D(_MainTex, i.uv) * _BaseColor;
+                half4 col = tex2D(_MainTex, i.uv);
                 return col;
             }
             ENDHLSL

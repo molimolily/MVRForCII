@@ -6,9 +6,11 @@ using UnityEngine.Rendering;
 using UnityEditor;
 #endif
 
-public class MVRenderPipeline : RenderPipeline
+public partial class MVRenderPipeline : RenderPipeline
 {
     public static int cullingCameraID;
+
+    int cullingCameraIndex = -1;
 
     ScriptableRenderContext context;
     CullingResults cullingResults;
@@ -34,8 +36,8 @@ public class MVRenderPipeline : RenderPipeline
         drawSkybox = asset.drawSkybox;
         drawTransparent = asset.drawTransparent;
     }
-
-    protected override void Render(ScriptableRenderContext context, Camera[] cameras)
+    protected override void Render(ScriptableRenderContext context, Camera[] cameras) { }
+    protected override void Render(ScriptableRenderContext context, List<Camera> cameras)
     {
         this.context = context;
 
@@ -44,87 +46,18 @@ public class MVRenderPipeline : RenderPipeline
         // エディタでの処理
         #region Editor
 #if UNITY_EDITOR
-        List<Camera> cameraList = new List<Camera>(cameras);
-        // 非プレイ時はカメラごとにカリングをする通常の描画を行う
-        if (!Application.isPlaying)
-        {
-            for(int i=0; i < cameraList.Count; i++)
-            {
-                RenderSceneView(cameraList[i]);
-            }
-            return;
-        }
-
-        // プレイ時はシーンビューおよびプレビューのカメラを描画した後にリストから削除
-        cameraList.RemoveAll(camera =>
-        {
-            switch(camera.cameraType)
-            {
-                case CameraType.SceneView:
-                    RenderSceneView(camera);
-                    return true;
-                case CameraType.Preview:
-                    RenderSceneView(camera);
-                    return true;
-                default:
-                    return false;
-            }
-        });
-
-        bool hasValidCullingResult = false;
-        // カリング用のカメラのサーチ
-        for (int i = 0; i < cameraList.Count; i++)
-        {
-            Camera camera = cameraList[i];
-            if (camera.GetInstanceID() == cullingCameraID)
-            {
-                if (camera.TryGetCullingParameters(out ScriptableCullingParameters p))
-                {
-                    cullingResults = context.Cull(ref p);
-                    hasValidCullingResult = true;
-                }
-                cameraList.Remove(camera);
-                break;
-            }
-        }
-
-        if (hasValidCullingResult)
-        {
-            for (int i = 0; i < cameraList.Count; i++)
-            {
-                RenderGameView(cameraList[i]);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < cameraList.Count; i++)
-            {
-                RenderSceneView(cameraList[i]);
-            }
-        }
+        RenderForEditor(context, cameras);
 
         if (Application.isEditor) return;
 #endif
         #endregion
 
-        int cullingCameraIndex = -1;
         // カリング用のカメラのサーチ
-        for(int i=0; i < cameras.Length; i++)
+        cullingCameraIndex = SearchCullingCameraAndCull(cameras);
+
+        if(cullingCameraIndex >= 0)
         {
-            Camera camera = cameras[i];
-
-            if (camera.GetInstanceID() == cullingCameraID)
-            {
-                if (!Cull(camera)) return;
-
-                cullingCameraIndex = i;
-                break;
-            }
-        }
-
-        if(cullingCameraIndex > 0)
-        {
-            for(int i=0; i < cameras.Length; i++)
+            for(int i=0; i < cameras.Count; i++)
             {
                 if(i != cullingCameraIndex)
                 {
@@ -132,14 +65,6 @@ public class MVRenderPipeline : RenderPipeline
                 }
             }
         }
-        else
-        {
-            for (int i = 0; i < cameras.Length; i++)
-            {
-                RenderSceneView(cameras[i]);
-            }
-        }
-
     }
 
     void Setup(Camera camera)
@@ -155,6 +80,25 @@ public class MVRenderPipeline : RenderPipeline
         buffer.Clear();
     }
 
+    // cullingCameraをサーチしてカリングを行う
+    // 引数のcamerasにおけるcullingCameraのインデックスを返す、見つからない場合は-1を返す
+    int SearchCullingCameraAndCull(List<Camera> cameras)
+    {
+        Camera camera;
+        for(int i=0;i<cameras.Count;i++)
+        {
+            camera = cameras[i];
+            if(camera.GetInstanceID() == cullingCameraID)
+            {
+                if (!Cull(camera))
+                {
+                    return -1;
+                }
+                return i;
+            }
+        }
+        return -1;
+    }
     void DrawGeometry(Camera camera)
     {
         // 不透明オブジェクトの描画
@@ -177,24 +121,6 @@ public class MVRenderPipeline : RenderPipeline
             filteringSettings.renderQueueRange = RenderQueueRange.transparent;
             context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
         }
-    }
-
-    void RenderSceneView(Camera camera)
-    {
-        if (!Cull(camera))
-        {
-            return;
-        }
-        Setup(camera);
-        context.DrawWireOverlay(camera);
-#if UNITY_EDITOR
-        if (UnityEditor.Handles.ShouldRenderGizmos())
-        {
-            context.DrawGizmos(camera, GizmoSubset.PreImageEffects);
-        }
-#endif
-        DrawGeometry(camera);
-        Submit();
     }
 
     void RenderGameView(Camera camera)

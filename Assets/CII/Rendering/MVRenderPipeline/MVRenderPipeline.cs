@@ -55,6 +55,7 @@ public partial class MVRenderPipeline : RenderPipeline
         this.context = context;
 
         buffer.ClearRenderTarget(true, true, Color.clear);
+        ExecuteBuffer();
 
         // エディタでの処理
         #region Editor

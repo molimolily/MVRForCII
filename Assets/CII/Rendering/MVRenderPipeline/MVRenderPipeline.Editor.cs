@@ -15,7 +15,6 @@ public partial class MVRenderPipeline : RenderPipeline
     partial void RenderPerCamera(Camera camera);
 
 #if UNITY_EDITOR
-    bool hasValidCullingResult = false;
     partial void RenderForEditor(ScriptableRenderContext context, List<Camera> cameras)
     {
         // 非プレイ時はカメラごとにカリングをする通常の描画を行う

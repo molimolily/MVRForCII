@@ -188,7 +188,7 @@ PrefabInstance:
     - target: {fileID: 4492785402677803725, guid: 83c7010333a26cb4abf860a64f6a0a8c,
         type: 3}
       propertyPath: ciiType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4492785402677803726, guid: 83c7010333a26cb4abf860a64f6a0a8c,
         type: 3}

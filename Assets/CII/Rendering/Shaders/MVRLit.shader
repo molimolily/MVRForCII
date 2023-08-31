@@ -1,4 +1,4 @@
-Shader "MVR/Unlit"
+Shader "MVR/Lit"
 {
     Properties
     {
@@ -11,10 +11,12 @@ Shader "MVR/Unlit"
         _SrcBlend("Src Blend", Float) = 1
         _DstBlend("Dst Blend", Float) = 0
         _ZWrite("Z Write", Float) = 1
+        _Metallic("Metallic", Range(0, 1)) = 0
+        _Smoothness("Smoothness", Range(0, 1)) = 0.5
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "LightMode" = "CustomLit" }
         LOD 100
 
         Pass
@@ -27,8 +29,7 @@ Shader "MVR/Unlit"
             #pragma vertex vert
             #pragma fragment frag
 
-            #include "UnlitPass.hlsl"
-            
+            #include "LitPass.hlsl"
             ENDHLSL
         }
     }

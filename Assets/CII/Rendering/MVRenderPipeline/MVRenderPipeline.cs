@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Unity.Collections;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -22,6 +23,18 @@ public partial class MVRenderPipeline : RenderPipeline
     };
 
     static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
+
+    static ShaderTagId litShaderTagId = new ShaderTagId("CustomLit");
+
+    const int maxDirLightCount = 4;
+
+    static int dirLightCountId = Shader.PropertyToID("_DirectionalLightCount");
+    static int dirLightColorsId = Shader.PropertyToID("_DirectionalLightColors");
+    static int dirLightDirectionsId = Shader.PropertyToID("_DirectionalLightDirections");
+
+    static Vector4[] dirLightColors = new Vector4[maxDirLightCount];
+    static Vector4[] dirLightDirections = new Vector4[maxDirLightCount];
+
 
     bool drawSkybox;
     bool drawTransparent;
@@ -71,6 +84,7 @@ public partial class MVRenderPipeline : RenderPipeline
     {
         context.SetupCameraProperties(camera);
         buffer.BeginSample(bufferName);
+        SetupLights();
         ExecuteBuffer();
     }
 
@@ -104,6 +118,7 @@ public partial class MVRenderPipeline : RenderPipeline
         // 不透明オブジェクトの描画
         SortingSettings sortingSettings = new SortingSettings(camera) { criteria = SortingCriteria.CommonOpaque};
         DrawingSettings drawingSettings = new DrawingSettings(unlitShaderTagId, sortingSettings);
+        drawingSettings.SetShaderPassName(1, litShaderTagId);
         FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.opaque, camera.cullingMask);
         context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);
 
@@ -146,5 +161,32 @@ public partial class MVRenderPipeline : RenderPipeline
         }
 
         return false;
+    }
+
+    void SetupdirectionalLight(int index, ref VisibleLight visibleLight)
+    {
+        dirLightColors[index] = visibleLight.finalColor;
+        dirLightDirections[index] = -visibleLight.localToWorldMatrix.GetColumn(2);
+    }
+    void SetupLights()
+    {
+        NativeArray<VisibleLight> visibleLights = cullingResults.visibleLights;
+        int dirLightCount = 0;
+        for (int i = 0; i < visibleLights.Length; i++)
+        {
+            VisibleLight visibleLight = visibleLights[i];
+            if (visibleLight.lightType == LightType.Directional)
+            {
+                SetupdirectionalLight(dirLightCount++, ref visibleLight);
+                if (dirLightCount >= maxDirLightCount)
+                {
+                    break;
+                }
+            }
+        }
+
+        buffer.SetGlobalInt(dirLightCountId, visibleLights.Length);
+        buffer.SetGlobalVectorArray(dirLightColorsId, dirLightColors);
+        buffer.SetGlobalVectorArray(dirLightDirectionsId, dirLightDirections);
     }
 }

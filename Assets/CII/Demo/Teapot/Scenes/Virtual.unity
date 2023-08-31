@@ -356,7 +356,7 @@ PrefabInstance:
     - target: {fileID: 4492785402677803724, guid: 83c7010333a26cb4abf860a64f6a0a8c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.15
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4492785402677803724, guid: 83c7010333a26cb4abf860a64f6a0a8c,
         type: 3}
@@ -366,12 +366,12 @@ PrefabInstance:
     - target: {fileID: 4492785402677803724, guid: 83c7010333a26cb4abf860a64f6a0a8c,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9848078
       objectReference: {fileID: 0}
     - target: {fileID: 4492785402677803724, guid: 83c7010333a26cb4abf860a64f6a0a8c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.17364816
       objectReference: {fileID: 0}
     - target: {fileID: 4492785402677803724, guid: 83c7010333a26cb4abf860a64f6a0a8c,
         type: 3}
@@ -386,7 +386,7 @@ PrefabInstance:
     - target: {fileID: 4492785402677803724, guid: 83c7010333a26cb4abf860a64f6a0a8c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4492785402677803724, guid: 83c7010333a26cb4abf860a64f6a0a8c,
         type: 3}
@@ -401,7 +401,7 @@ PrefabInstance:
     - target: {fileID: 4492785402677803725, guid: 83c7010333a26cb4abf860a64f6a0a8c,
         type: 3}
       propertyPath: ciiType
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4492785402677803726, guid: 83c7010333a26cb4abf860a64f6a0a8c,
         type: 3}
@@ -794,8 +794,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

@@ -33,6 +33,9 @@ public class MVRShaderGUI : ShaderGUI
     MaterialProperty surfaceType;
     MaterialProperty blendMode;
 
+    MaterialProperty metallic;
+    MaterialProperty smoothness;
+
     SurfaceType surfaceTypeValue;
     BlendMode blendModeValue;
 
@@ -47,11 +50,28 @@ public class MVRShaderGUI : ShaderGUI
         DrawSurfaceOptions();
 
         DrawClipping();
+
+        if (material.HasProperty("_Metallic"))
+        {
+            metallic.floatValue = materialEditor.RangeProperty(metallic, "Metallic");
+        }
+
+        if(material.HasProperty("_Smoothness"))
+        {
+            smoothness.floatValue = materialEditor.RangeProperty(smoothness, "Smoothness");
+        }
     }
 
     MaterialProperty FindProperty(string name)
     {
-        return ShaderGUI.FindProperty(name, properties);
+        if(material == null) return null;
+
+        if(material.HasProperty(name))
+        {
+            return ShaderGUI.FindProperty(name, properties);
+        }
+
+        return null;
     }
 
     void FindAllProperties()
@@ -62,6 +82,9 @@ public class MVRShaderGUI : ShaderGUI
         cutoff = FindProperty("_Cutoff");
         surfaceType = FindProperty("_SurfaceType");
         blendMode = FindProperty("_BlendMode");
+
+        metallic = FindProperty("_Metallic");
+        smoothness = FindProperty("_Smoothness");
     }
     static GUIContent MakeLabel(string text, string tooltip = null)
     {

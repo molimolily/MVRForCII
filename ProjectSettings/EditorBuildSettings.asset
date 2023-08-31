@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/CII/Demo/UnityChan/Scenes/Virtual.unity
     guid: c39f1e2d7e58347418a9bf017a532c38
   - enabled: 0
     path: Assets/CII/Demo/UnityChan/Scenes/Real.unity
     guid: 4d9ad7cb7b7296f458a14fafe38caf01
-  - enabled: 1
+  - enabled: 0
     path: Assets/CII/Demo/Teapot/Scenes/Virtual.unity
     guid: 71ae89811f4b6a24fbd8227283015bdf
   - enabled: 0

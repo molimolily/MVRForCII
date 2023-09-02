@@ -55,13 +55,11 @@ public partial class MVRenderPipeline : RenderPipeline
         this.context = context;
 
         buffer.ClearRenderTarget(true, true, Color.clear);
-        ExecuteBuffer();
 
         // エディタでの処理
         #region Editor
 #if UNITY_EDITOR
         RenderForEditor(context, cameras);
-
         if (Application.isEditor) return;
 #endif
         #endregion

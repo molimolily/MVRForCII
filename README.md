@@ -11,11 +11,8 @@ UnityでCIIのためのシンプルな多視点レンダリングを行います
 </div>
 
 ## サンプルシーンを動かすまで
-### 1. プロジェクトの作成
 
-URPのマクロを利用してるシェーダーがあります(今後修正するかも)。URPでプロジェクトを作成してください。
-
-### 2. Render Pipeline の設定
+### Render Pipeline の設定
 サンプルシーンを動作させるためにはRender Pipeline を MV Render Pipeline に変更する必要があります。  
 #### Render Pipeline Asset の変更
 Render Pipeline Asset を MV Render Pipeline Asset に設定  
@@ -47,13 +44,7 @@ SRP Batcher を有効にし、スカイボックスと半透明オブジェク�
 
 ### 2. CullingCameraコンポーネントを付けたカメラを配置する
 MV Render Pipeline ではCullingCameraコンポーネントを付けたカメラのCullingResultを全てのカメラで共有しています。
-そのため、CullingCameraコンポーネントを付けたカメラで描画したい範囲を映すようにしてください。
-
-### 3. Unlitシェーダーのマテリアルを持つオブジェクトをシーン内に配置する
-MV Render Pipeline では ShaderTagId が SRPDefaultUnlit にのみ対応しています。
-そのため、LightMode が記述されないシェーダーのみ描画が行われます。
-基本的にはUnlitシェーダー、またはMVRシェーダーを使用してください。  
-なお、MVRシェーダーはSRP Batcher に対応しています。
+CullingCameraコンポーネントを付けたカメラで描画したい範囲を映すようにしてください。
 
 
 ## License
